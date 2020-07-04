@@ -2,7 +2,7 @@
 TMP_FOLDER=$(mktemp -d)
 CONFIG_FILE='sin.conf'
 #read user
-echo -e "Enter the username of the infinitynode user (default: sinovate)"
+echo -e "Enter the username of the D.I.N. user (default: sinovate)"
 read NODEUSER
 if [ -z "$NODEUSER" ]; then
   NODEUSER="sinovate"
@@ -12,7 +12,7 @@ CONFIGFOLDER="/home/$NODEUSER/.sin"
 COIN_DAEMON="/home/$NODEUSER/sind"
 COIN_CLI="/home/$NODEUSER/sin-cli"
 ##
-COIN_REPO='https://github.com/SINOVATEblockchain/SIN-core/releases/latest/download/daemon.tar.gz'
+COIN_REPO='https://github.com/hardwarewise/SIN-vps-create/releases/latest/download/daemon.tar.gz'
 COIN_NAME='sinovate'
 COIN_PORT=20970
 #RPC_PORT=18332
@@ -24,19 +24,6 @@ NODEIP=$(curl -s4 icanhazip.com)
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'
-
-
-#function install_sentinel() {
-#  echo -e "${GREEN}Install sentinel.${NC}"
-#  apt-get -y install python-virtualenv virtualenv >/dev/null 2>&1
-#  git clone $SENTINEL_REPO $CONFIGFOLDER/sentinel >/dev/null 2>&1
-#  cd $CONFIGFOLDER/sentinel
-#  virtualenv ./venv >/dev/null 2>&1
-#  ./venv/bin/pip install -r requirements.txt >/dev/null 2>&1
-#  echo  "* * * * * cd $CONFIGFOLDER/sentinel && ./venv/bin/python bin/sentinel.py >> $CONFIGFOLDER/sentinel.log 2>&1" > $CONFIGFOLDER/$COIN_NAME.cron
-#  crontab $CONFIGFOLDER/$COIN_NAME.cron
-#  rm $CONFIGFOLDER/$COIN_NAME.cron >/dev/null 2>&1
-#}
 
 function create_user() {
   if [ $(grep -c "^$NODEUSER:" /etc/passwd) == 0 ]; then
@@ -144,7 +131,7 @@ EOF
 }
 
 function create_key() {
-  echo -e "Enter your ${RED}$COIN_NAME InfinityNode Private Key${NC}. Leave it blank to generate a new ${RED}InfinityNode Private Key${NC} for you:"
+  echo -e "Enter your ${RED}$COIN_NAME D.IK.N. Private Key${NC}. Leave it blank to generate a new ${RED}D.I.N. Private Key${NC} for you:"
   read -e COINKEY
   if [[ -z "$COINKEY" ]]; then
   $COIN_DAEMON -daemon
@@ -170,18 +157,20 @@ function update_config() {
   cat << EOF >> $CONFIGFOLDER/$CONFIG_FILE
 logintimestamps=1
 maxconnections=256
-#bind=$NODEIP
-masternode=1
+infinitynodeprivkey=$COINKEY
 externalip=$NODEIP:$COIN_PORT
-masternodeprivkey=$COINKEY
-addnode=95.179.140.120:20970
-addnode=138.201.173.208:20970
-addnode=78.47.15.130:20970
-addnode=31.25.241.224:20970
-addnode=188.166.80.84:20970
-addnode=207.180.230.140:20970
-addnode=167.172.42.45:20970
-addnode=46.150.0.33:20970
+infinitynode=1
+testnet=1
+listen=1
+daemon=1
+debug=1
+server=1
+masternode=0
+turnoffmasternode=0
+[test]
+addnode=78.141.209.185
+addnode=45.76.37.81
+addnode=80.211.75.217
 EOF
 }
 
@@ -248,7 +237,7 @@ fi
 }
 
 function prepare_system() {
-echo -e "Prepare the system to install ${GREEN}$COIN_NAME${NC} infinity node."
+echo -e "Prepare the system to install ${GREEN}$COIN_NAME${NC} D.I.N. node."
 apt-get update >/dev/null 2>&1
 DEBIAN_FRONTEND=noninteractive apt-get update > /dev/null 2>&1
 DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -y -qq upgrade >/dev/null 2>&1
@@ -281,12 +270,12 @@ clear
 function important_information() {
  echo
  echo -e "================================================================================================================================"
- echo -e "$COIN_NAME InfinityNode is up and running listening on port ${RED}$COIN_PORT${NC}."
+ echo -e "$COIN_NAME D.I.N. is up and running listening on port ${RED}$COIN_PORT${NC}."
  echo -e "Configuration file is: ${RED}$CONFIGFOLDER/$CONFIG_FILE${NC}"
  echo -e "Start: ${RED}systemctl start $COIN_NAME.service${NC}"
  echo -e "Stop: ${RED}systemctl stop $COIN_NAME.service${NC}"
  echo -e "VPS_IP:PORT ${RED}$NODEIP:$COIN_PORT${NC}"
- echo -e "INFINITYNODE PRIVATEKEY is: ${RED}$COINKEY${NC}"
+ echo -e "D.I.N. NODE PRIVATEKEY is: ${RED}$COINKEY${NC}"
  if [[ -n $SENTINEL_REPO  ]]; then
   echo -e "${RED}Sentinel${NC} is installed in ${RED}$CONFIGFOLDER/sentinel${NC}"
   echo -e "Sentinel logs is: ${RED}$CONFIGFOLDER/sentinel.log${NC}"
