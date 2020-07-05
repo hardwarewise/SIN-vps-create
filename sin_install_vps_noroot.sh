@@ -142,13 +142,22 @@ function create_key() {
    echo -e "${RED}$COIN_NAME server couldn not start. Check /var/log/syslog for errors.{$NC}"
    exit 1
   fi
-  COINKEY=$($COIN_CLI infinitynode keypair|grep PrivateKey|cut -c 18-69)
+  KEYPAIR=$($COIN_CLI infinitynode keypair)
+  PUBLICKEY=$(echo $KEYPAIR|grep PublicKey|cut -c 87-130)
+  COINKEY=$(echo $KEYPAIR|grep PrivateKey|cut -c 18-69)
+  DECODEPKEY=$(echo $KEYPAIR|grep DecodePublicKey|cut -c 154-193)
+  ADDRESS=$(echo $KEYPAIR|grep Address|cut -c 209-242)
   if [ "$?" -gt "0" ];
     then
     echo -e "${RED}Wallet not fully loaded. Let us wait and try again to generate the Private Key${NC}"
     sleep 30
-  COINKEY=$($COIN_CLI infinitynode keypair|grep PrivateKey|cut -c 18-69)
+  KEYPAIR=$($COIN_CLI infinitynode keypair)
+  PUBLICKEY=$(echo $KEYPAIR|grep PublicKey|cut -c 87-130)
+  COINKEY=$(echo $KEYPAIR|grep PrivateKey|cut -c 18-69)
+  DECODEPKEY=$(echo $KEYPAIR|grep DecodePublicKey|cut -c 154-193)
+  ADDRESS=$(echo $KEYPAIR|grep Address|cut -c 209-242)
   fi
+  $COIN_CLI importprivkey $COINKEY
   $COIN_CLI stop
 fi
 clear
@@ -272,6 +281,10 @@ function important_information() {
  echo -e "Stop: ${RED}systemctl stop $COIN_NAME.service${NC}"
  echo -e "VPS_IP:PORT ${RED}$NODEIP:$COIN_PORT${NC}"
  echo -e "D.I.N. NODE PRIVATEKEY is: ${RED}$COINKEY${NC}"
+ echo -e "D.I.N. NODE PUBLICKEY is: ${RED}$PUBLICKEY${NC}"
+ echo -e "D.I.N. NODE DECODEPUBLICKEY is: ${RED}$DECODEPKEY${NC}"
+ echo -e "D.I.N. NODE ADDRESS is: ${RED}$ADDRESS${NC}"
+
  if [[ -n $SENTINEL_REPO  ]]; then
   echo -e "${RED}Sentinel${NC} is installed in ${RED}$CONFIGFOLDER/sentinel${NC}"
   echo -e "Sentinel logs is: ${RED}$CONFIGFOLDER/sentinel.log${NC}"
