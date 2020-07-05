@@ -140,12 +140,12 @@ function create_key() {
    echo -e "${RED}$COIN_NAME server couldn not start. Check /var/log/syslog for errors.{$NC}"
    exit 1
   fi
-  COINKEY=$($COIN_CLI masternode genkey)
+  COINKEY=$($COIN_CLI infinitynode keypair)
   if [ "$?" -gt "0" ];
     then
     echo -e "${RED}Wallet not fully loaded. Let us wait and try again to generate the Private Key${NC}"
     sleep 30
-    COINKEY=$($COIN_CLI masternode genkey)
+  COINKEY=$($COIN_CLI infinitynode keypair|grep PrivateKey|cut -c 18-69)
   fi
   $COIN_CLI stop
 fi
@@ -221,7 +221,7 @@ fi
 
 function checks() {
 if [[ $(lsb_release -d) < *16.04* ]]; then
-  echo -e "${RED}You are not running Ubuntu 16.04 or later. Installation is cancelled.${NC}"
+  echo -e "${RED}You are not running Ubuntu 18.04 or later. Installation is cancelled.${NC}"
   exit 1
 fi
 
