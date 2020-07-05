@@ -14,7 +14,7 @@ COIN_CLI="/home/$NODEUSER/sin-cli"
 ##
 COIN_REPO='https://github.com/hardwarewise/SIN-vps-create/releases/latest/download/daemon.tar.gz'
 COIN_NAME='sinovate'
-COIN_PORT=20970
+COIN_PORT=20980
 #RPC_PORT=18332
 
 
@@ -127,11 +127,13 @@ listen=1
 server=1
 daemon=1
 port=$COIN_PORT
+logintimestamps=1
+maxconnections=256
 EOF
 }
 
 function create_key() {
-  echo -e "Enter your ${RED}$COIN_NAME D.IK.N. Private Key${NC}. Leave it blank to generate a new ${RED}D.I.N. Private Key${NC} for you:"
+  echo -e "Enter your ${RED}$COIN_NAME D.I.N. Private Key${NC}. Leave it blank to generate a new ${RED}D.I.N. Private Key${NC} for you:"
   read -e COINKEY
   if [[ -z "$COINKEY" ]]; then
   $COIN_DAEMON -daemon
@@ -140,7 +142,7 @@ function create_key() {
    echo -e "${RED}$COIN_NAME server couldn not start. Check /var/log/syslog for errors.{$NC}"
    exit 1
   fi
-  COINKEY=$($COIN_CLI infinitynode keypair)
+  COINKEY=$($COIN_CLI infinitynode keypair|grep PrivateKey|cut -c 18-69)
   if [ "$?" -gt "0" ];
     then
     echo -e "${RED}Wallet not fully loaded. Let us wait and try again to generate the Private Key${NC}"
@@ -155,16 +157,10 @@ clear
 function update_config() {
   sed -i 's/daemon=0/daemon=1/' $CONFIGFOLDER/$CONFIG_FILE
   cat << EOF >> $CONFIGFOLDER/$CONFIG_FILE
-logintimestamps=1
-maxconnections=256
 infinitynodeprivkey=$COINKEY
 externalip=$NODEIP:$COIN_PORT
 infinitynode=1
 testnet=1
-listen=1
-daemon=1
-debug=1
-server=1
 masternode=0
 turnoffmasternode=0
 [test]
