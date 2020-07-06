@@ -157,7 +157,6 @@ function create_key() {
   fi
   $COIN_CLI importprivkey $COINKEY
   $COIN_CLI stop
-fi
 clear
 }
 
