@@ -133,9 +133,7 @@ EOF
 }
 
 function create_key() {
-  echo -e "Enter your ${RED}$COIN_NAME D.I.N. Private Key${NC}. Leave it blank to generate a new ${RED}D.I.N. Private Key${NC} for you:"
-  read -e COINKEY
-  if [[ -z "$COINKEY" ]]; then
+  echo -e "${RED}$COIN_NAME DAEMON IS RUNNING FOR THE FIRST TIME. PLEASE WAIT !!!${NC}"
   $COIN_DAEMON -daemon
   sleep 30
   if [ -z "$(ps axo cmd:100 | grep $COIN_DAEMON)" ]; then
@@ -274,6 +272,7 @@ clear
 
 function important_information() {
  echo
+ echo -e "${GREEN}!!! PLEASE SAVE THIS INFORMATION !!!${NC}"
  echo -e "================================================================================================================================"
  echo -e "$COIN_NAME D.I.N. is up and running listening on port ${RED}$COIN_PORT${NC}."
  echo -e "Configuration file is: ${RED}$CONFIGFOLDER/$CONFIG_FILE${NC}"
@@ -284,13 +283,10 @@ function important_information() {
  echo -e "D.I.N. NODE PUBLICKEY is: ${RED}$PUBLICKEY${NC}"
  echo -e "D.I.N. NODE DECODEPUBLICKEY is: ${RED}$DECODEPKEY${NC}"
  echo -e "D.I.N. NODE ADDRESS is: ${RED}$ADDRESS${NC}"
-
- if [[ -n $SENTINEL_REPO  ]]; then
-  echo -e "${RED}Sentinel${NC} is installed in ${RED}$CONFIGFOLDER/sentinel${NC}"
-  echo -e "Sentinel logs is: ${RED}$CONFIGFOLDER/sentinel.log${NC}"
- fi
  echo -e "Please check ${RED}$COIN_NAME${NC} is running with the following command: ${GREEN}systemctl status $COIN_NAME.service${NC}"
  echo -e "================================================================================================================================"
+ echo -e "${GREEN}!!! PLEASE SAVE THIS INFORMATION !!!${NC}"
+ echo
 }
 
 function setup_node() {
@@ -299,7 +295,6 @@ function setup_node() {
   create_key
   update_config
   enable_firewall
-  install_sentinel
   important_information
   configure_systemd
 }
