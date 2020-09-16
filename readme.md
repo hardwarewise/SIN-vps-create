@@ -72,8 +72,6 @@ Please save the given keys and address information. You can do this by choosing 
 
 ![](https://lh3.googleusercontent.com/v2fPGbd3P7l14DsAyU0kQ3A_iWS8n2OifqoRL0Gyd9_SXFGIgDPRePrdMoUrRhI6F6zktQzxHc2jJJJxOo_rdQ6Y0UWjibbod_IlsrGlV98ZxwJG-Rm1jCyBmiG4wI52bjC5cius)
 
-![](https://lh5.googleusercontent.com/D9avRcWOy9X_8Yu5sRrbW0hhCpWISUfozDwvu5eErERj4otDGidsK2AfBoQHcJkV0jOcN2qlhUNGv8qtFqwCVR8uxVI41IaoLh2CXMSsB3i6Ky8RkjlcFn3ntdUmLbSwnsVEXtwS)
-
 
 ![](https://lh4.googleusercontent.com/RZ_N86OXKGWc2AqLaMd-mBDubqTRmZM0vvbKGRUEpI287v3lUTvx9bGRqKwcYb86kVvpdFKozMJzkD_rjoKoUGSfXAdZTlkTd6LnhCV2vZOx6ZeeGwTev2s34sPNg5nMoLMrGukT)
 
