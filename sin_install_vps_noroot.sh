@@ -101,6 +101,8 @@ EOF
   systemctl daemon-reload
   sleep 3
   systemctl start $COIN_NAME.service
+  sleep 20
+  runuser -l $NODEUSER -c "/home/$NODEUSER/sin-cli importprivkey $COINKEY"
   systemctl enable $COIN_NAME.service >/dev/null 2>&1
 
   if [[ -z "$(ps axo cmd:100 | egrep $COIN_DAEMON)" ]]; then
@@ -155,7 +157,7 @@ function create_key() {
   DECODEPKEY=$(echo $KEYPAIR|grep DecodePublicKey|cut -c 154-193)
   ADDRESS=$(echo $KEYPAIR|grep Address|cut -c 209-242)
   fi
-  $COIN_CLI importprivkey $COINKEY
+
   $COIN_CLI stop
 clear
 }
