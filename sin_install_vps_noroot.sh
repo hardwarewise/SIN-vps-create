@@ -165,8 +165,8 @@ function update_config() {
   cat << EOF >> $CONFIGFOLDER/$CONFIG_FILE
 infinitynodeprivkey=$COINKEY
 externalip=$NODEIP:$COIN_PORT
-infinitynode=1
 testnet=1
+infinitynode=1
 masternode=0
 turnoffmasternode=0
 [test]
