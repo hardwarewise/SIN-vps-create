@@ -172,9 +172,6 @@ infinitynode=1
 masternode=0
 turnoffmasternode=0
 [test]
-addnode=78.141.209.185
-addnode=45.76.37.81
-addnode=80.211.75.217
 EOF
 }
 
