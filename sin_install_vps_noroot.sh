@@ -12,9 +12,9 @@ CONFIGFOLDER="/home/$NODEUSER/.sin"
 COIN_DAEMON="/home/$NODEUSER/sind"
 COIN_CLI="/home/$NODEUSER/sin-cli"
 ##
-COIN_REPO='https://github.com/hardwarewise/SIN-vps-create/releases/latest/download/daemon.tar.gz'
+COIN_REPO='https://github.com/SINOVATEblockchain/SIN-core/releases/latest/download/daemon.tar.gz'
 COIN_NAME='sinovate'
-COIN_PORT=20980
+COIN_PORT=20970
 #RPC_PORT=18332
 
 
@@ -55,7 +55,7 @@ function create_swap() {
 
 
 function compile_node() {
-  echo -e "Prepare to download $COIN_NAME"
+  echo -e "Preparing to download $COIN_NAME"
   cd $TMP_FOLDER
   wget -q $COIN_REPO
   compile_error
@@ -167,11 +167,9 @@ function update_config() {
   cat << EOF >> $CONFIGFOLDER/$CONFIG_FILE
 infinitynodeprivkey=$COINKEY
 externalip=$NODEIP:$COIN_PORT
-testnet=1
 infinitynode=1
 masternode=0
 turnoffmasternode=0
-[test]
 EOF
 }
 
